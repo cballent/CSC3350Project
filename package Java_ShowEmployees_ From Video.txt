@@ -1,0 +1,249 @@
+package Java_ShowEmployees;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.DriveManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import java.text.DateFormat;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Vector;
+
+/*
+The infomation in here is from the guy off the youtube channel.
+We would need to insert our infomation from the employeeData so it will correspond with our info
+
+public class Java_ShowEmployees extends java.swing.JFrame 
+{
+
+	private static final String username = "root";
+	private static final String password = "password";
+	private static final String dataConn = "jdbc:mysql://localhost:3306/employeedata";  //<--example
+	
+	Connection sqlConn = null;
+	PreparedStatement pst = null;
+	ResultSet rs = null;
+	int q, i, id, deleteItem;
+
+
+	public Java_ShowEmployees() 
+	{
+		initConponents();
+       	}
+}
+//==========================================Function============================================
+
+public void upDateDB()
+{
+	try
+	{
+		class.forName("com.mysql.jdbc.Driver");
+		sqlConn = DriverManager.getConnection(dataConn, username, password);
+		pst = sqlConn.prepareStatement("select * from employeedata");
+		
+		rs = pst.executeQuery();
+		ResultSetMetaData stData = rs.getMetaData();
+
+		q = stData.getColumnCount();
+		
+		DefaultTableModel RecordTable = (DefaultTableModel)jTable1.getModel();
+		RecordTable.setRowCount(0);
+
+		while(rs.next())
+		{
+			Vector ColumnData = new Vector();
+
+			for (i = 1; i <= q; i++)
+			{
+				//example
+				columnData.add(rs.getString("empid"));
+				columnData.add(rs.getString("gender"));
+				columnData.add(rs.getString("identified)=_race"));
+				columnData.add(rs.getString("DOB"));
+				columnData.add(rs.getString("phone_number));
+				columnData.add(rs.getString("city_id"));
+				columnData.add(rs.getString("state_id"));
+			
+                        }
+			RecordTable.addRow(columnData);
+		}
+	} 
+	catch (Exception ex)
+		JOptionPane.showMessageDialog(null, ex);	
+}
+//============================================End Function================================
+@SuppressWarning("unchecked")
+
+private void initComponents() {
+
+
+
+private void jbtnAddNewActionPerformed(java.awt.event.ActionEvent evt) 
+{
+	try
+	{
+		class.forName("com.mysql.jdbc.Driver");
+		sqlConn = DriverManager.getConnection(dataConn, username, password);
+		pst = sqlConn.prepareStatement("insert into employeedata(StudentID, Firstname" 
+		+ "Surname, Address, PostCode, Telephone)"value(?, ?, ?, ?, ?, ?)");
+
+		pst.setString(1, jtxtempid.getText());
+		pst.setString(2, jtxtgender.getText());
+		pst.setString(3, jtxtidentified_race.getText());
+		pst.setString(4, jtxtDOB.getText());
+		pst.setString(5, jtxtphone_number.getText());
+		pst.setString(6, jtxtcity_id.getText());
+		pst.setString(7, jtxtstate_id.getText());
+
+		pst.executeUpdate();
+		JOptionPane.ShowMessageDialog(this, "Record Added");
+		upDateDB();
+	}
+
+	catch (ClassNotFoundException ex)
+	{
+		java.util.logging.Logger.getLogger(Java_MysqlConn.class.getName()) .log(java.util.logging.Level.SEVERE, null, ex);
+	}
+
+	catch (SQLException ex)
+	{
+		java.util.logging.Logger.getLogger(Java_MysqlConn.class.getName()) .log(java.util.logging.Logger.getLogger(Java_MysqlConn.class.getName()) .log(java.util.logging.Level.SEVERE, null, ex); 
+	}
+}
+private JFrame frame;
+	private void jbtnExitActionPerformed(java.awt.event.ActionEvent evt)
+	{
+		frame = new JFrame("Exit");
+		if (JOptionPane.showConfirmDialog)(frame, "Confirm if you want to exit, MySQL connector", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
+	}
+		System.exit(0);
+
+
+private void jbtnResetActionPerformed(java.awt.event.ActionEvent evt)
+{
+
+	-->(example) jtxtempid.setText("");
+	             jtxtgender.setText("");
+                     jtxtidentified_race.setText("");
+                     jtxtDOB.setText("");
+                     jtxtphone_number.setText("");
+                     jtxtcity_id.setText("");
+		     jtxtstate_id.setText("");
+    }
+
+private void jbtnUpdateActionPerformed(java.awt.event.ActionEvent evt)
+{
+	try
+	{
+		class.forName("com.mysql.jdbc.Driver");
+		sqlConn = DriverManager.getConnection(dataConn, username, password);
+		// We need to add our information for the employeeData instead of this.  This the guy from the youtube channel information.
+		pst = sqlConn.prepareStatement("update employeeData set empid = ?, gender = ?, identified_race = ?, DOB = ?, phone_number = ?, city_id = ?, state_id = ?, where id =?");
+
+		pst.setString(1, jtxtempid.getText());
+		pst.setString(2, jtxtgender.getText());
+		pst.setString(3, jtxtidentified_race.getText());
+		pst.setString(4, jtxtDOB.getText());
+		pst.setString(5, jtxtphone_number.getText());
+		pst.setString(6, jtxtcity_id.getText());
+		pst.setString(7, jtxtstate_id.getText());
+
+		pst.executeUpdate();
+		JOptionPane.ShowMessageDialog(this, "Record Updated");
+		upDateDB();
+	}
+
+	catch (ClassNotFoundException ex)
+	{
+		java.util.logging.Logger.getLogger(Java_MysqlConn.class.getName()) .log(java.util.logging.Level.SEVERE, null, ex);
+	}
+
+	catch (SQLException ex)
+	{
+		java.util.logging.Logger.getLogger(Java_MysqlConn.class.getName()) .log(java.util.logging.Logger.getLogger(Java_MysqlConn.class.getName()) .log(java.util.logging.Level.SEVERE, null, ex); 
+	}
+
+	private void jbtnPrintActionPerformed(java.awt.event.ActionEvent evt)
+	{
+		MessageFormat header = new MessageFormat("Printing in progress");
+		MessageFormat footer = new MessageFormat("Page 10, number, integer)");
+
+		try
+		{
+			jTable1.print(JTable.PrintMode.NORMAL,header,footer);
+		}
+		
+		catch(java.awt.print.PrintException e)
+		{
+			System.err.format("No Printer Found", e.getMessage());
+		}
+
+	}
+
+	private void jTableMouseClicked(java.awt.event.MouseEvent evt)
+	{
+		DefaultTableModel RecordTable = (DefaultTableModel)jTable.getModel();
+		int SelectRows = jTable1.getSelectedRow();
+
+		jtxtempid.setText(RecordTable.getValueAt(SelectedRows, 1).toString());
+		jtxtgender.setText(RecordTable.getValueAt(SelectedRows, 2).toString());
+		jtxtidentified_race.setText(RecordTable.getValueAt(SelectedRows, 3).toString());
+		jtxtDOB.setText(RecordTable.getValueAt(SelectedRows, 4).toString());
+		jtxtphone_number.setText(RecordTable.getValueAt(SelectedRows, 5).toString());
+		jtxtcity_id.setText(RecordTable.getValueAt(SelectedRows, 6).toString());
+		jtxtstate_id.setText(RecordTable.getValueAt(SelectedRows, 7).toString());
+	}
+
+private void jbtnDeleteActionPerformed(java.awt.event.ActionEvent evt)
+{
+		DefaultTabModel RecordTable = (DefaultTableModel)jTable.getModel();
+		int SelectRows = jTable.getSelectRow();
+
+	    try
+	    {
+
+			id = Integer.parseInt(RecordTable.getValueAt(SelectedRows, 0) .toString());
+			deleteItem = JOptionPane.showConfirmDialog(null, "Confirm if you want to delete item", "Warning", JOptionPane.YES_NO_OPTION);
+		if (deleteItem == JOptionPane.YES_OPTION)
+		{
+			
+			Class.forName("com.mysql.jdbc.Driver");
+			sqlConn = DriverManager.getConnection(dataConn,username,password);
+			pst = sqlConn.prepareStatement("delete from employeeData where id =?);
+
+			pst.setInt(1, id);
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(this,"Record Updated");
+			updateDB();
+
+			jtxtempid.setText("");
+			jtxtempid.requestFocus();
+			jtxtgender.setText("");
+			jtxtidentified_race.setText("");
+			jtxtDOB.setText("");
+			jtxtphone_number.setText("");
+          		jtxtcity_id.setText("");
+			jtxtstate_id.setText("");
+		}
+            
+             }
+
+	catch (ClassNotFoundException ex)
+	{
+	java.util.logging.Logger.getLogger(Java_MysqlConn.class.getName()) .log(java.util.logging.Level.SEVERE, null, ex);
+	}
+	
+	catch (SQLException ex) 
+	{
+   }		System.err.println(ex);
+
+	}
+
+//====================================================================================================
+}
